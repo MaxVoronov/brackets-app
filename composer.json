@@ -1,0 +1,24 @@
+{
+    "name": "maxvoronov/brackets-app",
+    "description": "CLI application for brackets checking in files",
+    "keywords": ["application", "cli", "brackets", "checker", "otus", "homework"],
+    "homepage": "https://github.com/maxvoronov/brackets-app",
+    "minimum-stability": "stable",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Max Voronov",
+            "email": "maxivoronov@gmail.com",
+            "homepage": "https://github.com/MaxVoronov",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "source": "https://github.com/maxvoronov/brackets-app",
+        "issues": "https://github.com/maxvoronov/brackets-app/issues"
+    },
+    "require": {
+        "php": "^7.0"
+    }
+}
