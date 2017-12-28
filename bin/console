@@ -1,0 +1,25 @@
+#!/usr/bin/env php
+<?php
+require __DIR__ . '/../vendor/autoload.php';
+
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Reference;
+use Symfony\Component\Console\Application;
+use App\Repository\FileRepository;
+use App\Service\BracketsService;
+use App\Command\CheckFileCommand;
+use App\Command\CheckLineCommand;
+
+$di = new ContainerBuilder;
+$di->register(FileRepository::class, new FileRepository);
+$di->register(BracketsService::class, BracketsService::class)
+    ->addArgument(new Reference(FileRepository::class));
+$di->register(CheckFileCommand::class, CheckFileCommand::class)
+    ->addArgument(new Reference(BracketsService::class));
+$di->register(CheckLineCommand::class, CheckLineCommand::class)
+    ->addArgument(new Reference(BracketsService::class));
+
+$application = new Application;
+$application->add($di->get(CheckLineCommand::class));
+$application->add($di->get(CheckFileCommand::class));
+$application->run();
