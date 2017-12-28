@@ -1,0 +1,15 @@
+dist: trusty
+language: php
+sudo: false
+
+php:
+  - 7.1
+  - 7.2
+
+before_script:
+  - travis_retry composer self-update
+  - travis_retry composer install --no-interaction
+
+script:
+  - vendor/bin/phpcs --standard=PSR2 --colors --extensions=php --encoding=utf-8 ./src ./tests -p
+  - vendor/bin/phpunit
