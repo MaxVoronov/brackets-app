@@ -14,18 +14,20 @@ use App\Exception\InvalidFileException;
 use App\Exception\EmptyContentException;
 use App\Repository\FileRepository;
 use App\ValueObject\Sentence;
-use MaxVoronov\BracketsChecker;
-use MaxVoronov\BracketsChecker\Exceptions\InvalidArgumentException;
+use MaxVoronov\BracketsChecker\CheckerInterface;
+use MaxVoronov\BracketsChecker\Exceptions\InvalidSentenceException;
 
 class BracketsService
 {
-    /**
-     * @var FileRepository
-     */
+    /** @var CheckerInterface */
+    protected $bracketsChecker;
+
+    /** @var FileRepository */
     protected $repository;
 
-    public function __construct(FileRepository $repository)
+    public function __construct(CheckerInterface $bracketsChecker, FileRepository $repository)
     {
+        $this->bracketsChecker = $bracketsChecker;
         $this->repository = $repository;
     }
 
@@ -34,12 +36,11 @@ class BracketsService
      *
      * @param Sentence $sentence
      * @return bool
-     * @throws InvalidArgumentException
+     * @throws InvalidSentenceException
      */
     public function validateSentence(Sentence $sentence): bool
     {
-        $checker = new BracketsChecker\BracketsChecker($sentence->getValue());
-        return $checker->isCorrect();
+        return $this->bracketsChecker->check($sentence->getValue());
     }
 
     /**
@@ -49,7 +50,7 @@ class BracketsService
      * @return bool
      * @throws InvalidFileException
      * @throws EmptyContentException
-     * @throws InvalidArgumentException
+     * @throws InvalidSentenceException
      */
     public function validateFromFile(string $file): bool
     {

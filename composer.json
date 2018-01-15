@@ -21,7 +21,7 @@
     "require": {
         "php": "^7.0",
         "symfony/console": "^4.0",
-        "maxvoronov/brackets-checker": "^0.1.0",
+        "maxvoronov/brackets-checker": "^1.0",
         "symfony/dependency-injection": "^4.0"
     },
     "require-dev": {
@@ -40,7 +40,7 @@
     },
     "scripts": {
         "test": "composer phpcs && composer phpunit",
-        "phpcs": "vendor/bin/phpcs --standard=PSR2 --colors --extensions=php --encoding=utf-8 ./src ./tests -p",
+        "phpcs": "vendor/bin/phpcs --standard=PSR2 --colors --extensions=php --encoding=utf-8 ./src ./tests -p -s",
         "phpunit": "vendor/bin/phpunit"
     }
 }

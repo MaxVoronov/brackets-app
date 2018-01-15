@@ -14,29 +14,32 @@ use App\Repository\FileRepository;
 use App\Service\BracketsService;
 use App\ValueObject\Sentence;
 use PHPUnit\Framework\TestCase;
+use MaxVoronov\BracketsChecker\Checker;
 
 class BracketsServiceTest extends TestCase
 {
     const DATA_DIR = __DIR__ . "/../../data/";
 
+    protected $bracketsChecker;
     protected $repository;
 
     public function __construct(?string $name = null, array $data = [], string $dataName = '')
     {
+        $this->bracketsChecker = new Checker;
         $this->repository = new FileRepository;
         parent::__construct($name, $data, $dataName);
     }
 
     public function testSuccessSentence()
     {
-        $service = new BracketsService($this->repository);
+        $service = new BracketsService($this->bracketsChecker, $this->repository);
         $this->assertTrue($service->validateSentence(new Sentence("()(())")));
         $this->assertFalse($service->validateSentence(new Sentence(")(())")));
     }
 
     public function testSuccessFile()
     {
-        $service = new BracketsService($this->repository);
+        $service = new BracketsService($this->bracketsChecker, $this->repository);
         $this->assertTrue($service->validateFromFile(self::DATA_DIR . 'example.txt'));
         $this->assertFalse($service->validateFromFile(self::DATA_DIR . 'incorrect.txt'));
     }

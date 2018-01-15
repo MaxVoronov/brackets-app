@@ -5,14 +5,18 @@ require __DIR__ . '/../vendor/autoload.php';
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\Console\Application;
+use MaxVoronov\BracketsChecker\CheckerInterface;
+use MaxVoronov\BracketsChecker\Checker;
 use App\Repository\FileRepository;
 use App\Service\BracketsService;
 use App\Command\CheckFileCommand;
 use App\Command\CheckLineCommand;
 
 $di = new ContainerBuilder;
+$di->register(CheckerInterface::class, new Checker);
 $di->register(FileRepository::class, new FileRepository);
 $di->register(BracketsService::class, BracketsService::class)
+    ->addArgument(new Reference(CheckerInterface::class))
     ->addArgument(new Reference(FileRepository::class));
 $di->register(CheckFileCommand::class, CheckFileCommand::class)
     ->addArgument(new Reference(BracketsService::class));
